@@ -18,11 +18,6 @@ public class AuthController {
     @Autowired
     private UserServiceImpl userService;
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginPage(@ModelAttribute("user") User user) {
-        return "user/login";
-    }
-
     @GetMapping(value = "/user")
     public String showUser(Principal principal, Model model) {
         model.addAttribute("user", userService.getUserByName(principal.getName()));
