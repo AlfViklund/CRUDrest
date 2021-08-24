@@ -15,8 +15,11 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/")
 public class AuthController {
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
+
+    public AuthController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(value = "/user")
     public String showUser(Principal principal, Model model) {

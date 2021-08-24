@@ -15,8 +15,15 @@
     <input type="text" th:field="*{lastName}" id="lastName"/>
     <label for="password">Enter password</label>
     <input type="text" th:field="*{password}" id="password">
-    <label for="role">Enter role</label>
-    <input type="text" name="role" id="role"/>
+
+    <label for="role">Choose role</label>
+    <select th:size="${rolesList.size()}" name="role" id="role">
+        <option th:each="role : ${rolesList}"
+                th:value="${role.getRole()}"
+                th:text="${role.getRole().substring(5)}">
+        </option>
+    </select>
+
     <br/>
     <br/>
     <input type="submit" value="Update user"/>

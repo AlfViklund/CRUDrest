@@ -2,6 +2,8 @@ package com.arslek.CRUD3.dao;
 
 import com.arslek.CRUD3.model.Role;
 
+import java.util.List;
+
 public interface RoleDao {
     Role saveRole(Role role);
 
@@ -10,4 +12,6 @@ public interface RoleDao {
     void updateRole(Role role);
 
     void deleteRole(Role role);
+
+    List<Role> getRolesList();
 }

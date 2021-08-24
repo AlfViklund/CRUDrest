@@ -19,7 +19,6 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    //@JoinTable
     private Set<Role> roles = new HashSet<>();
 
     public User() {}

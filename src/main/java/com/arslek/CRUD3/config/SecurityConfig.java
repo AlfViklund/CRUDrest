@@ -16,12 +16,14 @@ import com.arslek.CRUD3.service.UserServiceImpl;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
+
+    public SecurityConfig(UserServiceImpl userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.inMemoryAuthentication().withUser("ADMIN").password("ADMIN").roles("ADMIN");
         auth.userDetailsService(userService);
     }
 

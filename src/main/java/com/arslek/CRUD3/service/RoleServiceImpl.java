@@ -5,10 +5,15 @@ import org.springframework.stereotype.Service;
 import com.arslek.CRUD3.dao.RoleDao;
 import com.arslek.CRUD3.model.Role;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService{
-    @Autowired
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
+
+    public RoleServiceImpl(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
     @Override
     public Role saveRole(Role role) {
@@ -28,5 +33,10 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public void deleteRole(Role role) {
         roleDao.deleteRole(role);
+    }
+
+    @Override
+    public List<Role> getRolesList() {
+        return roleDao.getRolesList();
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.arslek.CRUD3.dao.UserDaoImpl;
 import com.arslek.CRUD3.model.Role;
@@ -14,13 +15,21 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+    private final UserDaoImpl userDao;
+    private final RoleServiceImpl roleService;
     @Autowired
-    private UserDaoImpl userDao;
-    @Autowired
-    private RoleServiceImpl roleService;
+    private PasswordEncoder encoder;
+
+    public UserServiceImpl(UserDaoImpl userDao, RoleServiceImpl roleService) {
+        this.userDao = userDao;
+        this.roleService = roleService;
+    }
 
     @Override
-    public void add(User user) { userDao.add(user); }
+    public void add(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        userDao.add(user);
+    }
 
     @Override
     public void addUserWithRole(User user, String roleName) {
@@ -46,7 +55,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getUserById(long id) { return userDao.getUserById(id); }
 
     @Override
-    public void update(User user) { userDao.update(user); }
+    public void update(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        userDao.update(user);
+    }
 
     @Override
     public User getUserByName(String name) { return userDao.getUserByName(name); }

@@ -12,11 +12,9 @@ public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //@Column(name = "role", unique = true)
     private String role;
 
     @Transient
-    //@ManyToMany(mappedBy = "roles")
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<User> users = new HashSet<>();
 

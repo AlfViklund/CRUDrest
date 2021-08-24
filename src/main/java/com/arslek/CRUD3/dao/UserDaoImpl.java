@@ -19,19 +19,13 @@ public class UserDaoImpl implements UserDao{
 
     @PersistenceContext
     private EntityManager entityManager;
-    @Autowired
-    private PasswordEncoder encoder;
 
     @Override
-    public void add(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        entityManager.persist(user);
-    }
+    public void add(User user) { entityManager.persist(user); }
 
     @Override
     @Transactional
     public void delete(User user) {
-        //entityManager.remove(getUserById(user.getId()));
         entityManager.createQuery("delete User where id = :id").
                 setParameter("id", user.getId()).
                 executeUpdate();

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -45,5 +46,10 @@ public class RoleDaoImpl implements RoleDao{
         entityManager.createQuery("DELETE Role WHERE id =:id").
                 setParameter("id", role.getId()).
                 executeUpdate();
+    }
+
+    @Override
+    public List<Role> getRolesList() {
+        return entityManager.createQuery("from Role", Role.class).getResultList();
     }
 }
