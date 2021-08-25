@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void addUserWithRole(User user, String roleName) {
         Role role = roleService.findRole(roleName);
+        String pass = user.getPassword();
 
         if(getUserByName(user.getName()) == null) {
             add(user);
@@ -42,6 +43,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(role == null) { role = roleService.saveRole(new Role(roleName)); }
 
         user.addRoles(role);
+        user.setPassword(pass);
         update(user);
     }
 
