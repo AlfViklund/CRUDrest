@@ -229,7 +229,7 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="passwordEdit">Password</label>
-                            <input class="form-control mb-6 col-7" type="password" name="password" th:value="*{password}" id="passwordEdit"/>
+                            <input class="form-control mb-6 col-7" type="password" name="password" id="passwordEdit"/>
                         </div>
 
                         <label class="font-weight-bold" for="role">Role</label>
@@ -237,8 +237,7 @@
                             <option th:each="role : ${rolesList}"
                                     th:value="${role.getRole()}"
                                     th:text="${role.getRole().substring(5)}"
-                                    th:attr="selected=${role.getRole().substring(5).equals('USER')}?''"
-                            >
+                                    th:attr="selected=${role.getRole().substring(5).equals('USER')}?''">
                             </option>
                         </select>
                         <div class="modal-footer">
@@ -299,7 +298,7 @@
                         <br>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-danger" value="Edit"/>
+                            <input type="submit" class="btn btn-danger" value="Delete"/>
                         </div>
                     </form>
                 </div>
