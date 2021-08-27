@@ -37,11 +37,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void addUserWithRole(User user, String roleName) {
         Role role = roleService.findRole(roleName);
         String pass = user.getPassword();
-
-        if(getUserByName(user.getName()) == null) {
-            add(user);
-            user = getUserByName(user.getName());
-        }
+        try {
+            if(user.getId() == null) {
+                add(user);
+                user = getUserById(user.getId());
+            }
+        }catch (NullPointerException ex) {}
         if(role == null) { role = roleService.saveRole(new Role(roleName)); }
 
         user.addRoles(role);
@@ -60,7 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void update(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
+        String dbPass = getUserById(user.getId()).getPassword();
+        if (!dbPass.equals(user.getPassword()))
+        {
+            user.setPassword(encoder.encode(user.getPassword()));
+        }
         userDao.update(user);
     }
 
