@@ -1,6 +1,8 @@
 package com.arslek.CRUD3.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -68,5 +70,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return getUserByName(s);
+    }
+
+    public String getCurrentUserName() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    public boolean isAdmin() {
+        boolean result = false;
+        for(GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+            if ("ROLE_ADMIN".equals(authority.getAuthority())) {
+                result = true;
+            }
+        }
+        return result;
+
     }
 }

@@ -19,11 +19,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException, ServletException {
         String url = "/admin/users";
+        /*
+        String url = "/user";
         for(GrantedAuthority authority : authentication.getAuthorities()) {
-            if (!"ROLE_ADMIN".equals(authority.getAuthority())) {
-                url = "/user";
+            if ("ROLE_ADMIN".equals(authority.getAuthority())) {
+                url = "/admin/users";
             }
-        }
+        }*/
         httpServletResponse.sendRedirect(url);
     }
 }

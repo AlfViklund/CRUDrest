@@ -16,9 +16,10 @@ public class Initializer {
 
 
     public void InitializeUsers() {
-        userService.add(new User("admin", "Lastname", "admin", new Role("ROLE_ADMIN")));
-        for(int i = 0; i <= 10; i++) {
-            userService.addUserWithRole(new User("user" + i, "Lastname" + i, "user" + i), "ROLE_USER");
+        User user = new User("admin", "Lastname", 30, "admin@mail.ru", "admin", new Role("ROLE_ADMIN"));
+        userService.addUserWithRole(user, "ROLE_USER");
+        for(int i = 0; i <= 3; i++) {
+            userService.addUserWithRole(new User("user" + i, "Lastname" + i, 30, i + "user@mail.ru", "user" + i), "ROLE_USER");
         }
     }
 }

@@ -16,6 +16,8 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String lastName;
+    private int age;
+    private String email;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -23,25 +25,31 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String name, String lastName, String password) {
+    public User(String name, String lastName, int age, String email, String password) {
         this.name = name;
         this.lastName = lastName;
         this.password = password;
+        this.age = age;
+        this.email = email;
     }
 
-    public User(String name, String lastName, String password, Role role) {
+    public User(String name, String lastName, int age, String email, String password, Role role) {
         this.name = name;
         this.lastName = lastName;
         this.password = password;
         this.roles.add(role);
+        this.age = age;
+        this.email = email;
     }
 
-    public User(Long id, String name, String lastName, String password, Set<Role> roles) {
+    public User(Long id, String name, String lastName, int age, String email, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.password = password;
         this.roles = roles;
+        this.age = age;
+        this.email = email;
     }
 
     public Set<Role> getRoles() { return roles; }
@@ -56,6 +64,12 @@ public class User implements UserDetails {
 
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     @Override
     public String getPassword() { return password; }

@@ -1,6 +1,7 @@
 package com.arslek.CRUD3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,11 @@ public class UserController {
     }
 
     @GetMapping()
-    public String users(Model model) {
+    public String users(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("users", userService.listUsers());
+        model.addAttribute("currentUser", userService.getUserByName(userService.getCurrentUserName()));
+        model.addAttribute("isAdmin", userService.isAdmin());
+        model.addAttribute("rolesList", roleService.getRolesList());
         return "/user/users";
     }
 
