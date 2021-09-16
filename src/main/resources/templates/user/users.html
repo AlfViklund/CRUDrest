@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Users</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -124,8 +125,7 @@
                                         <option th:each="role : ${rolesList}"
                                                 th:value="${role.getRole()}"
                                                 th:text="${role.getRole().substring(5)}"
-                                                th:attr="selected=${role.getRole().substring(5).equals('USER')}?''"
-                                        >
+                                                th:attr="selected=${role.getRole().substring(5).equals('USER')}?''">
                                         </option>
                                     </select>
                                     <input class="btn btn-success newUser" type="submit" value="Add new user"/>
