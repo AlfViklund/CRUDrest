@@ -41,6 +41,10 @@ function newUser() {
         },
         body: JSON.stringify(user)
     }).then(() => updateUsersTable())
+    $('.form-control').each(function () {
+        $(this).val('')
+    })
+
 }
 
 function logout(){
@@ -119,10 +123,9 @@ function modal(href, mode) {
 
     $.get(href,function (user) {
         $("#uniModal").modal()
-        let option
-        user.roles.forEach(function (item, i, arr) {
-            option += (`<option value="${item.role}" text="${item.role.substring(5)}" selected="${item.role.substring(5) === 'USER'}"
-                        >${item.role.substring(5)}</option>`)})
+        let option = (`<option value="ROLE_USER" text="USER" selected=true>USER</option>`)
+        option += (`<option value="ROLE_ADMIN" text="ADMIN">ADMIN</option>`)
+
         let modal = $(".modal-content")
         modal.children().remove()
         modal.append(`
