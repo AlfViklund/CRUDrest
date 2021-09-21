@@ -62,6 +62,7 @@ function updateUsersTable() {
 }
 
 function createTable(users, tbody) {
+    users.sort()
     users.forEach(function (item, i, arr) {
         let roles = ""
         for(let i = 0; i < item.roles.length; i++) {

@@ -3,6 +3,7 @@ package com.arslek.CRUD3.dao;
 import com.arslek.CRUD3.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserDao {
 
@@ -10,7 +11,7 @@ public interface UserDao {
 
     void delete(User user);
 
-    List<User> listUsers();
+    Set<User> listUsers();
 
     User getUserById(long id);
 

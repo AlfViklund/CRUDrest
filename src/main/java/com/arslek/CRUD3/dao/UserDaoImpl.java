@@ -1,5 +1,6 @@
 package com.arslek.CRUD3.dao;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 
 @Repository
 @Transactional
@@ -26,20 +27,21 @@ public class UserDaoImpl implements UserDao{
     @Override
     @Transactional
     public void delete(User user) {
-        entityManager.createQuery("delete User where id = :id").
+        entityManager.createQuery("DELETE FROM User where id = :id").
                 setParameter("id", user.getId()).
                 executeUpdate();
         }
 
     @Override
-    public List<User> listUsers() {
-        return entityManager.createQuery("from User", User.class).getResultList();
+    public Set<User> listUsers() {
+        return new LinkedHashSet<>(entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles", User.class)
+                .getResultList());
     }
 
     @Override
     public User getUserById(long id) {
         try {
-            return entityManager.createQuery("SELECT u FROM User u WHERE u.id = :id", User.class).
+            return entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = :id", User.class).
                     setParameter("id", id).getSingleResult();
         }catch (NoResultException ex) {
         }
@@ -52,9 +54,10 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
+    //@Transactional
     public User getUserByName(String name) {
         try {
-            return entityManager.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class).
+            return entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles WHERE u.name = :name", User.class).
                     setParameter("name", name).getSingleResult();
         }catch (NoResultException ex) {
         }

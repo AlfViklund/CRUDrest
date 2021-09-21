@@ -14,9 +14,7 @@ import com.arslek.CRUD3.model.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -61,7 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void delete(User user) { userDao.delete(user); }
 
     @Override
-    public List<User> listUsers() { return userDao.listUsers(); }
+    public Set<User> listUsers() { return userDao.listUsers(); }
 
     @Override
     public User getUserById(long id) { return userDao.getUserById(id); }

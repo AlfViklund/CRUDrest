@@ -1,5 +1,7 @@
 package com.arslek.CRUD3;
 
+import com.arslek.CRUD3.dao.UserDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.arslek.CRUD3.model.Role;
 import com.arslek.CRUD3.model.User;
@@ -9,9 +11,11 @@ import com.arslek.CRUD3.service.UserService;
 public class Initializer {
     private final UserService userService;
 
+
     public Initializer(UserService userService) {
         this.userService = userService;
         InitializeUsers();
+
     }
 
 

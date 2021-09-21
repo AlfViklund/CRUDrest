@@ -6,29 +6,30 @@ import com.arslek.CRUD3.service.UserService;
 import com.arslek.CRUD3.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 public class RestController {
 
     private final UserServiceImpl userService;
-    private final RoleServiceImpl roleService;
 
     public RestController(UserServiceImpl userService, RoleServiceImpl roleService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping("/users")
-    public List<User> getUsersList() {
+    public Set<User> getUsersList() {
+        System.out.println(userService.listUsers());
         return userService.listUsers();
     }
-
+    //@Transactional
     @GetMapping("/current")
     public User getCurrentUser() {
         return userService.getUserByName(userService.getCurrentUserName());
@@ -50,8 +51,5 @@ public class RestController {
     }
 
     @DeleteMapping("/users")
-    public void deleteUser(@RequestBody User user) {
-        userService.delete(user);
-        System.out.println(user.getId());
-    }
+    public void deleteUser(@RequestBody User user) { userService.delete(user); }
 }

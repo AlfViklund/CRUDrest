@@ -1,5 +1,9 @@
 package com.arslek.CRUD3.model;
 
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.SortNatural;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,6 +15,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@NamedEntityGraph(name = "graph.User.roles",
+    attributeNodes = @NamedAttributeNode("roles"))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +28,10 @@ public class User implements UserDetails {
     private String password;
     private String role;
 
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.LAZY)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {}
@@ -34,6 +42,7 @@ public class User implements UserDetails {
         this.password = password;
         this.age = age;
         this.email = email;
+        Hibernate.initialize(getRoles());
     }
 
     public User(String name, String lastName, int age, String email, String password, Role role) {
@@ -43,6 +52,7 @@ public class User implements UserDetails {
         this.roles.add(role);
         this.age = age;
         this.email = email;
+        Hibernate.initialize(getRoles());
     }
 
     public User(Long id, String name, String lastName, int age, String email, String password, Set<Role> roles) {
@@ -53,6 +63,7 @@ public class User implements UserDetails {
         this.roles = roles;
         this.age = age;
         this.email = email;
+        Hibernate.initialize(getRoles());
     }
 
     public Set<Role> getRoles() { return roles; }
