@@ -22,7 +22,8 @@ public class User implements UserDetails {
     private String password;
     private String role;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @Transient
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Role> roles = new HashSet<>();
 
     public User() {}
