@@ -11,8 +11,12 @@ import org.springframework.stereotype.Service;
 import com.arslek.CRUD3.dao.UserDaoImpl;
 import com.arslek.CRUD3.model.Role;
 import com.arslek.CRUD3.model.User;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -33,18 +37,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDao.add(user);
     }
 
+    @Transactional
     @Override
     public void addUserWithRole(User user, String roleName) {
         Role role = roleService.findRole(roleName);
+        if(role == null) { role = roleService.saveRole(new Role(roleName)); }
         String pass = user.getPassword();
         try {
             if(user.getId() == null) {
+                user.addRoles(role);
                 add(user);
-                user = getUserById(user.getId());
+                return;
             }
         }catch (NullPointerException ex) {}
-        if(role == null) { role = roleService.saveRole(new Role(roleName)); }
 
+        user.setRoles(new HashSet<>());
         user.addRoles(role);
         user.setPassword(pass);
         update(user);
@@ -62,6 +69,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void update(User user) {
         String dbPass = getUserById(user.getId()).getPassword();
+
         if (!dbPass.equals(user.getPassword()))
         {
             user.setPassword(encoder.encode(user.getPassword()));
